@@ -150,7 +150,8 @@
         "DEU",
         "AUT",
         "CHE",
-        "LIE"
+        "LIE",
+        "LUX"
     ],
     "nl": [
         "NLD",
@@ -169,7 +170,8 @@
         "AZE"
     ],
     "bs": [
-        "BIH"
+        "BIH",
+        "MNE"
     ],
     "bn": [
         "BGD"
@@ -178,6 +180,7 @@
         "FRA",
         "BFA",
         "BDI",
+        "BEL",
         "BEN",
         "BLM",
         "COD",
@@ -206,7 +209,8 @@
         "ATF",
         "TGO",
         "WLF",
-        "MYT"
+        "MYT",
+        "TUN"
     ],
     "bg": [
         "BGR"
@@ -353,7 +357,9 @@
         "POL"
     ],
     "ru": [
-        "RUS"
+        "RUS",
+        "BLR",
+        "KAZ"
     ],
     "rw": [
         "RWA"
