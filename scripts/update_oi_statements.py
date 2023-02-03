@@ -12,6 +12,8 @@ PASSWORD = os.environ["EOLYMP_PASSWORD"]
 api = AtlasAPI(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
 tw = TypeWriterAPI(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
 
+folder_dir = os.path.join(os.path.dirname(__file__), '..')
+
 
 def get_problem_sources():
     problems = api.get_problems()
@@ -30,7 +32,7 @@ def get_problem_sources():
 
 
 def get_languages():
-    with open('oi-tasks/languages.json', 'r') as f:
+    with open(os.path.join(folder_dir, 'languages.json'), 'r') as f:
         languages = json.load(f)
     print('Languages')
     print(languages)
@@ -139,7 +141,7 @@ def run_script():
                 prob_ind = i + 1
             prob_id = sources[source][i]
             print(prob_id)
-            walk_path = 'oi-tasks/' + olymp.lower() + '/' + year + '/' + str(prob_ind)
+            walk_path = os.path.join(folder_dir, olymp.lower(), year, str(prob_ind))
             folder_statements = get_statements(all_languages, walk_path)
             eolymp_statements = api.get_statements(prob_id)
             update_eolymp_statements(prob_id, eolymp_statements, folder_statements)
