@@ -141,7 +141,7 @@ def run_script():
                 prob_ind = i + 1
             prob_id = sources[source][i]
             print(prob_id)
-            walk_path = os.path.join(folder_dir, olymp.lower(), year, str(prob_ind))
+            walk_path = os.path.join(folder_dir, 'statements', olymp.lower(), year, str(prob_ind))
             folder_statements = get_statements(all_languages, walk_path)
             eolymp_statements = api.get_statements(prob_id)
             update_eolymp_statements(prob_id, eolymp_statements, folder_statements)
