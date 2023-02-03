@@ -21,5 +21,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install peolymp
       - name: Run update
+        env:
+          SPACE_ID: ${{ secrets.SPACE_ID }}
+          EOLYMP_USERNAME: ${{ secrets.EOLYMP_USERNAME }}
+          EOLYMP_PASSWORD: ${{ secrets.EOLYMP_PASSWORD }}
         run: |
           python scripts/update_oi_statements.py
