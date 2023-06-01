@@ -125,7 +125,7 @@ def run_script():
     sources = get_problem_sources()
     all_languages = get_languages()
 
-    for source in list(sources)[-10:]: #TEMP, Last 10 only
+    for source in list(sources)[-3:]: #TEMP, Last 3 only
         temp = source.split(' ')
         if len(temp) != 2:
             continue
