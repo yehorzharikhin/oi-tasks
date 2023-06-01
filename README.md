@@ -18,4 +18,3 @@ In each folder, there should be a file, which ends by 'en_ISC.pdf'. It defines t
 You can find the list of all languages and countries in the file 'languages.json'.
 
 If you want to make a change, please make a PR request.
-
