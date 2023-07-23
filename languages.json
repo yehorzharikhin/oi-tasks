@@ -237,7 +237,8 @@
         "CHN",
         "HKG",
         "MAC",
-        "TWN"
+        "TWN",
+        "USA"
     ],
     "el": [
         "GRC",
@@ -359,7 +360,8 @@
     "ru": [
         "RUS",
         "BLR",
-        "KAZ"
+        "KAZ",
+        "KGZ"
     ],
     "rw": [
         "RWA"
