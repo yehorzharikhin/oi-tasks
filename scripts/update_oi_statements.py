@@ -96,18 +96,23 @@ def update_eolymp_statements(prob_id, eolymp_statements, folder_statements):
     en = None
     for statement in eolymp_statements:
         locale = statement.locale
-        print(locale)
+        print('Working on', locale)
         if locale == 'en':
             en = statement
         if locale in folder_statements:
             path = folder_statements[locale]
             folder_hash = get_hash_of_file(path)
+            eolymp_statement_name = ''
             if not hasattr(statement, 'download_link') or statement.download_link == '':
                 eolymp_hash = ''
             else:
-                eolymp_hash = hashlib.sha256(requests.get(statement.download_link).content).hexdigest()
-            if folder_hash != eolymp_hash:
+                s = requests.get(statement.download_link)
+                eolymp_statement_name = s.headers['Content-Disposition'].split('"')[1]
+                eolymp_hash = hashlib.sha256(s.content).hexdigest()
+            folder_statement_name = path.split('/')[-1]
+            if folder_hash != eolymp_hash or eolymp_statement_name != folder_statement_name:
                 statement.download_link = get_link_from_file(path)
+                print('Updating')
                 api.update_statement(prob_id, statement)
             folder_statements[locale] = None
         else:
@@ -118,14 +123,15 @@ def update_eolymp_statements(prob_id, eolymp_statements, folder_statements):
 
     for lang in folder_statements:
         if folder_statements[lang] is not None:
-            api.create_statement(prob_id, lang, en.title, get_link_from_file(path), en.source)
+            print('Uploading', lang)
+            api.create_statement(prob_id, lang, en.title, get_link_from_file(folder_statements[lang]), en.source)
 
 
 def run_script():
     sources = get_problem_sources()
     all_languages = get_languages()
 
-    for source in list(sources)[-3:]: #TEMP, Last 3 only
+    for source in list(sources)[-2:]: #TEMP, Last 2 only
         temp = source.split(' ')
         if len(temp) != 2:
             continue
