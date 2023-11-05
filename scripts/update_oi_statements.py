@@ -1,16 +1,16 @@
-from peolymp import AtlasAPI, TypeWriterAPI
 import json
 import os
 import hashlib
 
 import requests
 
+from API import API
+
 SPACE_ID = os.environ["SPACE_ID"]
 USERNAME = os.environ["EOLYMP_USERNAME"]
 PASSWORD = os.environ["EOLYMP_PASSWORD"]
 
-api = AtlasAPI(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
-tw = TypeWriterAPI(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
+api = API(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
 
 folder_dir = os.path.join(os.path.dirname(__file__), '..')
 
@@ -82,7 +82,7 @@ def get_link_from_file(path):
     in_file = open(path, "rb")
     data = in_file.read()
     in_file.close()
-    return tw.upload_asset(name, data)
+    return api.upload_pdf(name, data)
 
 
 def get_hash_of_file(path):
@@ -131,7 +131,7 @@ def run_script():
     sources = get_problem_sources()
     all_languages = get_languages()
 
-    for source in list(sources)[-2:]: #TEMP, Last 2 only
+    for source in list(sources)[-1:]: #TEMP, Last 1 only
         temp = source.split(' ')
         if len(temp) != 2:
             continue
