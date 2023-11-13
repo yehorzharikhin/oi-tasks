@@ -9,7 +9,7 @@ needed_prefix = "statements/"
 for file in sys.argv:
     if file[:len(needed_prefix)] == needed_prefix:
         data = file.split("/")
-        olymp = data[1]
+        olymp = data[1].upper()
         year = data[2]
         print(olymp, year)
         sources[olymp + ' ' + year] = True
