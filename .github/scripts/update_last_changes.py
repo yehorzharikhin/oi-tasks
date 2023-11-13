@@ -1,8 +1,9 @@
 import sys
 
-from .update_oi_statement import update_statement
-
 sources = {}
+
+from update_oi_statement import update_statement
+
 
 needed_prefix = "statements/"
 for file in sys.argv:

@@ -6,8 +6,8 @@ def test_filenames():
     def make_error(text):
         print(text)
         assert False
-    folder_dir = os.path.join(os.path.dirname(__file__), '..')
-    with open(os.path.join(folder_dir, 'languages.json'), 'r') as f:
+    folder_dir = os.path.join(os.path.dirname(__file__), '../..')
+    with open(os.path.join(folder_dir, '../data/languages.json'), 'r') as f:
         languages = json.load(f)
     statements_dir = os.path.join(folder_dir, 'statements')
     for contest in os.listdir(statements_dir):
