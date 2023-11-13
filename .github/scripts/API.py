@@ -44,6 +44,10 @@ class API:
             statement_service_pb2.UpdateStatementInput(problem_id=problem_id, statement_id=statement.id,
                                                        statement=statement))
 
+    def delete_statement(self, problem_id, statement_id):
+        self.client.DeleteStatement(statement_service_pb2.DeleteStatementInput(statement_id=statement_id,
+                                                                               problem_id=problem_id))
+
     def upload_pdf(self, filename, data):
         return self.asset.UploadFile(UploadFileInput(name=filename, type="application/pdf", data=data)).file_url
 

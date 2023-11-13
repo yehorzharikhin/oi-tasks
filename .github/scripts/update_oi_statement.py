@@ -114,9 +114,8 @@ def update_eolymp_statements(prob_id, eolymp_statements, folder_statements):
             folder_statements[locale] = None
         else:
             # TODO DELETE ENGL - delete
-            print('!', prob_id, statement.id)
-            exit(1)
-            # if not engl api.delete_statement(prob_id, eolymp_language.id)
+            print('Deleting', prob_id, statement.id)
+            api.delete_statement(prob_id, statement.id)
 
     for lang in folder_statements:
         if folder_statements[lang] is not None:
