@@ -27,4 +27,4 @@ jobs:
           EOLYMP_USERNAME: ${{ secrets.EOLYMP_USERNAME }}
           EOLYMP_PASSWORD: ${{ secrets.EOLYMP_PASSWORD }}
         run: |
-          python .github/update.py ${{ steps.changed-files.outputs.all_changed_files }}
+          python .github/update.py ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
