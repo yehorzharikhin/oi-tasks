@@ -1,6 +1,6 @@
 import sys
 
-from scripts.update_oi_statement import update_statement
+from .update_oi_statement import update_statement
 
 sources = {}
 
