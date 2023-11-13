@@ -106,12 +106,8 @@ def update_eolymp_statements(prob_id, eolymp_statements, folder_statements):
                 eolymp_hash = ''
             else:
                 s = requests.get(statement.download_link)
-                print(s.status_code)
-                print(s.headers)
-                eolymp_statement_name = s.headers['Content-Disposition'].split('"')[1]
                 eolymp_hash = hashlib.sha256(s.content).hexdigest()
-            folder_statement_name = path.split('/')[-1]
-            if folder_hash != eolymp_hash or eolymp_statement_name != folder_statement_name:
+            if folder_hash != eolymp_hash:
                 statement.download_link = get_link_from_file(path)
                 print('Updating')
                 api.update_statement(prob_id, statement)
