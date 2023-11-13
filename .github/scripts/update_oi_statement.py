@@ -11,8 +11,7 @@ USERNAME = os.environ["EOLYMP_USERNAME"]
 PASSWORD = os.environ["EOLYMP_PASSWORD"]
 
 api = API(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
-
-folder_dir = os.path.dirname(__file__)
+folder_dir = os.path.join(os.path.dirname(__file__), '../..')
 print('folder_dir', folder_dir)
 def get_problem_sources():
     problems = api.get_problems()
@@ -31,7 +30,7 @@ def get_problem_sources():
 
 
 def get_languages():
-    with open(os.path.join(folder_dir, '../data/languages.json'), 'r') as f:
+    with open(os.path.join(folder_dir, '.github/data/languages.json'), 'r') as f:
         languages = json.load(f)
     print('Languages')
     print(languages)
