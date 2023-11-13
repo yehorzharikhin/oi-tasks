@@ -1,17 +1,18 @@
 name: Upload
 
-on:
-  push:
-    branches:
-      - main
+on: pull_request
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: read
     steps:
       - uses: actions/checkout@v3
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -26,4 +27,4 @@ jobs:
           EOLYMP_USERNAME: ${{ secrets.EOLYMP_USERNAME }}
           EOLYMP_PASSWORD: ${{ secrets.EOLYMP_PASSWORD }}
         run: |
-          python scripts/update_oi_statements.py
+          python .github/update.py ${{ steps.changed-files.outputs.all_changed_files }}
