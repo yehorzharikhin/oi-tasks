@@ -12,13 +12,12 @@ PASSWORD = os.environ["EOLYMP_PASSWORD"]
 
 api = API(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
 folder_dir = os.path.join(os.path.dirname(__file__), '../..')
-print('folder_dir', folder_dir)
+
 def get_problem_sources():
     problems = api.get_problems()
     sources = {}
     for problem in problems:
         problem_id = problem.id
-        print('problem_id', problem_id)
         statements = api.get_statements(problem_id)
         en = None
         for statement in statements:
