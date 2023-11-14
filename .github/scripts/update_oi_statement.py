@@ -11,15 +11,14 @@ USERNAME = os.environ["EOLYMP_USERNAME"]
 PASSWORD = os.environ["EOLYMP_PASSWORD"]
 
 api = API(space_id=SPACE_ID, username=USERNAME, password=PASSWORD)
-
-folder_dir = os.path.join(os.path.dirname(__file__), '..')
-
-
+folder_dir = os.path.join(os.path.dirname(__file__), '../..')
+print('folder_dir', folder_dir)
 def get_problem_sources():
     problems = api.get_problems()
     sources = {}
     for problem in problems:
         problem_id = problem.id
+        print('problem_id', problem_id)
         statements = api.get_statements(problem_id)
         en = None
         for statement in statements:
@@ -32,12 +31,13 @@ def get_problem_sources():
 
 
 def get_languages():
-    with open(os.path.join(folder_dir, 'languages.json'), 'r') as f:
+    with open(os.path.join(folder_dir, '.github/data/languages.json'), 'r') as f:
         languages = json.load(f)
     print('Languages')
     print(languages)
     return languages
 
+all_languages = get_languages()
 
 def get_statements_from_folder(walk_path):
     statements = {}
@@ -107,19 +107,16 @@ def update_eolymp_statements(prob_id, eolymp_statements, folder_statements):
                 eolymp_hash = ''
             else:
                 s = requests.get(statement.download_link)
-                eolymp_statement_name = s.headers['Content-Disposition'].split('"')[1]
                 eolymp_hash = hashlib.sha256(s.content).hexdigest()
-            folder_statement_name = path.split('/')[-1]
-            if folder_hash != eolymp_hash or eolymp_statement_name != folder_statement_name:
+            if folder_hash != eolymp_hash:
                 statement.download_link = get_link_from_file(path)
                 print('Updating')
                 api.update_statement(prob_id, statement)
             folder_statements[locale] = None
         else:
             # TODO DELETE ENGL - delete
-            print('!', prob_id, statement.id)
-            exit(1)
-            # if not engl api.delete_statement(prob_id, eolymp_language.id)
+            print('Deleting', prob_id, statement.id)
+            api.delete_statement(prob_id, statement.id)
 
     for lang in folder_statements:
         if folder_statements[lang] is not None:
@@ -127,10 +124,26 @@ def update_eolymp_statements(prob_id, eolymp_statements, folder_statements):
             api.create_statement(prob_id, lang, en.title, get_link_from_file(folder_statements[lang]), en.source)
 
 
+def update_statement_with_problems(olymp, year, problems):
+    for i in range(len(problems)):
+        if olymp == 'IOI' and year == '2012':
+            prob_ind = max(1, i - 3)
+        else:
+            prob_ind = i + 1
+        prob_id = problems[i]
+        print(prob_id)
+        walk_path = os.path.join(folder_dir, 'statements', olymp.lower(), year, str(prob_ind))
+        folder_statements = get_statements(all_languages, walk_path)
+        eolymp_statements = api.get_statements(prob_id)
+        update_eolymp_statements(prob_id, eolymp_statements, folder_statements)
+
+def update_statement(olymp, year):
+    source = olymp + ' ' + str(year)
+    update_statement_with_problems(olymp, year, get_problem_sources()[source])
+
+
 def run_script():
     sources = get_problem_sources()
-    all_languages = get_languages()
-
     for source in list(sources)[-1:]: #TEMP, Last 1 only
         temp = source.split(' ')
         if len(temp) != 2:
@@ -139,21 +152,10 @@ def run_script():
             continue
         olymp = temp[0]
         year = temp[1]
-
-        for i in range(len(sources[source])):
-            if olymp == 'IOI' and year == '2012':
-                prob_ind = max(1, i - 3)
-            else:
-                prob_ind = i + 1
-            prob_id = sources[source][i]
-            print(prob_id)
-            walk_path = os.path.join(folder_dir, 'statements', olymp.lower(), year, str(prob_ind))
-            folder_statements = get_statements(all_languages, walk_path)
-            eolymp_statements = api.get_statements(prob_id)
-            update_eolymp_statements(prob_id, eolymp_statements, folder_statements)
+        update_statement_with_problems(olymp, year, sources[source])
     print('done')
 
 
 if __name__ == "__main__":
-    run_script()
+    update_statement(os.environ["OLYMP"], os.environ["YEAR"])
 
