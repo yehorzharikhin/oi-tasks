@@ -18,6 +18,7 @@ def get_problem_sources():
     sources = {}
     for problem in problems:
         problem_id = problem.id
+        print('problem_id', problem_id)
         statements = api.get_statements(problem_id)
         en = None
         for statement in statements:
