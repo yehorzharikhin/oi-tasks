@@ -7,8 +7,8 @@ from eolymp.atlas import statement_service_pb2, library_service_pb2, statement_p
 from eolymp.atlas.atlas_http import AtlasClient
 from eolymp.core.http_client import HttpClient
 from eolymp.ecm import content_pb2
+from eolymp.universe.space_service_pb2 import DescribeSpaceInput
 from eolymp.universe.universe_http import UniverseClient
-from eolymp.universe.universe_pb2 import LookupSpaceInput, DescribeSpaceInput
 
 
 class API:
